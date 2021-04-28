@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 public class HttpServer {
@@ -34,7 +36,7 @@ public class HttpServer {
                     System.out.println(firstAsk);
                     //System.out.println(input.readLine());
 
-                    //ищем слово ГЕТ в строках приходящих от браузера
+                    //ищем знак "/" и "HTTP" в строках приходящих от браузера, и вычисляех их позиции
                     int beginDirectoryName = firstAsk.indexOf("/");
                     int endDirectoryName = firstAsk.indexOf("HTTP")-1;
 
@@ -43,7 +45,13 @@ public class HttpServer {
 
                     System.out.print("Запрашиваемая директория: ");
                     System.out.println(askMassive);
+                    String a = new String(askMassive);
                     System.out.println();
+
+                    Path wwwPath = Path.of("c:\\www\\readme.txt");
+                    Files.writeString(wwwPath, a);
+
+
 
                     System.out.println("остальные строки от клиента:");
                     while (input.ready()) { // считываем и печатаем все что было отправлено клиентом
@@ -67,6 +75,13 @@ public class HttpServer {
                             "\t\t\t\t</td>\n" +
                             "\t\t\t</tr>\n" +
                             "\t\t</table>");
+
+
+
+                    String fromReadme = Files.readString(wwwPath);
+                    System.out.println(fromReadme);
+
+
                     output.flush();
 
                     // по окончанию выполнения блока try-with-resources потоки,
