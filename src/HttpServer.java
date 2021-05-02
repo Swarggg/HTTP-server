@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 
 public class HttpServer {
@@ -29,11 +30,15 @@ public class HttpServer {
                     // ждем первой строки запроса
                     while (!input.ready());
 
+                    Path wwwPath = Path.of("c:\\www\\readme.txt"); //определяем файл, куда буду записываться запросы клиента
 
                     System.out.println("Клиент присылает следущее:");
                     System.out.println("Первая строка инфы от клиента:");
-                    String firstAsk = input.readLine();
-                    System.out.println(firstAsk);
+                    String firstAsk = input.readLine(); //
+
+                    Files.writeString(wwwPath, firstAsk, StandardOpenOption.APPEND);
+                    Files.writeString(wwwPath, "Первая строка инфы от клиента:", StandardOpenOption.APPEND);
+                    //System.out.println(firstAsk);
                     //System.out.println(input.readLine());
 
                     //ищем знак "/" и "HTTP" в строках приходящих от браузера, и вычисляех их позиции
@@ -48,8 +53,8 @@ public class HttpServer {
                     String a = new String(askMassive);
                     System.out.println();
 
-                    Path wwwPath = Path.of("c:\\www\\readme.txt");
-                    Files.writeString(wwwPath, a);
+
+                    Files.writeString(wwwPath, a, StandardOpenOption.APPEND);
 
 
 
